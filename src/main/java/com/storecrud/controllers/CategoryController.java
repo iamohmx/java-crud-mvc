@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
-import java.sql.Timestamp;
 
 import org.mariadb.jdbc.Statement;
 
