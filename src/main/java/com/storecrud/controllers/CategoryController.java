@@ -267,4 +267,61 @@ public class CategoryController {
         }
     }
 
+    public void searchByNameOrId() {
+        MariaDB connDb = new MariaDB();
+        Connection conn = connDb.getConnection();
+        
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.print("Enter Category ID or Name: ");
+            String input = sc.nextLine(); // รับข้อมูลจากผู้ใช้
+    
+            // สร้าง SQL statement
+            String SQL_SELECT = "SELECT cat_id, cat_name FROM `categories` WHERE cat_id = ? OR cat_name = ?;";
+    
+            if (conn != null) {
+                try (PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT)) {
+    
+                    // ตรวจสอบว่า input เป็นตัวเลข (id) หรือไม่
+                    try {
+                        int cat_id = Integer.parseInt(input); // แปลง input เป็นเลข (ถ้าทำได้)
+                        preparedStatement.setInt(1, cat_id);  // ตั้งค่า cat_id
+                    } catch (NumberFormatException e) {
+                        preparedStatement.setNull(1, java.sql.Types.INTEGER); // ถ้าไม่ใช่ตัวเลข ตั้งค่าเป็น NULL
+                    }
+    
+                    preparedStatement.setString(2, input);  // ตั้งค่าชื่อหมวดหมู่ (กรณีเป็นชื่อ)
+    
+                    ResultSet rs = preparedStatement.executeQuery();
+    
+                    // ตรวจสอบผลลัพธ์
+                    if (rs.next()) {
+                        int id = rs.getInt("cat_id");
+                        String name = rs.getString("cat_name");
+    
+                        Category category = new Category(id, name);
+    
+                        // สร้าง JSON response
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonResponse = gson.toJson(category);
+                        System.out.println("Found category:");
+                        System.out.println(jsonResponse);
+                    } else {
+                        System.out.println("No category found with the given ID or Name.");
+                    }
+                } catch (SQLException e) {
+                    System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+                } finally {
+                    try {
+                        if (conn != null) {
+                            conn.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                System.out.println("Failed to establish connection.");
+            }
+        }
+    }    
 }

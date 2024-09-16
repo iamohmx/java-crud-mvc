@@ -8,7 +8,8 @@ public class Main {
         // ProductController p = new ProductController();
         // System.out.println(p.viewProducts());
         CategoryController c = new CategoryController();
-        c.deleteCategory();
+        // c.deleteCategory();
+        // c.searchByNameOrId();
         // c.addCategory();
         // c.updateCategory();
         // c.viewCategories();
