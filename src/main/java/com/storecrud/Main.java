@@ -8,11 +8,11 @@ public class Main {
         // ProductController p = new ProductController();
         // System.out.println(p.viewProducts());
         CategoryController c = new CategoryController();
+        c.deleteCategory();
         // c.addCategory();
-        c.updateCategory();
-        // System.out.println(c.viewCategories());
+        // c.updateCategory();
+        // c.viewCategories();
 
-        // System.out.println(getCurrentTimeStamp());
 
 
     }
