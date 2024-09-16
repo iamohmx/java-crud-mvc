@@ -9,10 +9,9 @@ public class Main {
         // System.out.println(p.viewProducts());
         CategoryController c = new CategoryController();
         // c.addCategory();
-        c.updateCategory();
-        // System.out.println(c.viewCategories());
+        // c.updateCategory();
+        // c.viewCategories();
 
-        // System.out.println(getCurrentTimeStamp());
 
 
     }

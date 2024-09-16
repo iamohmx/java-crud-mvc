@@ -42,7 +42,7 @@ public class CategoryController {
         Categories = new <Category>Vector();
     }
 
-    public String viewCategories() {
+    public void viewCategories() {
         String SQL_SELECT = "SELECT cat_id, cat_name FROM categories;";
         Vector<Category> categories = new Vector();
 
@@ -74,7 +74,7 @@ public class CategoryController {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonResponse = gson.toJson(categories);
-        return jsonResponse;
+        System.out.println(jsonResponse);
     }
 
     public void addCategory() {
@@ -219,4 +219,9 @@ public class CategoryController {
             }
         }
     }
+
+    public void deleteCategory(){
+
+    }
+
 }
