@@ -221,7 +221,51 @@ public class CategoryController {
     }
 
     public void deleteCategory(){
-
+        MariaDB connDb = new MariaDB();
+        Connection conn = connDb.getConnection();
+    
+        try (Scanner sc = new Scanner(System.in)) {
+    
+            System.out.print("Category ID: ");
+            int cat_id = sc.nextInt(); // รับ cat_id
+    
+            // ลบข้อมูล
+            String SQL_DELETE = "DELETE FROM `categories` WHERE `cat_id` = ?";
+    
+            if (conn != null) {
+                try (PreparedStatement deletePreparedStatement = conn.prepareStatement(SQL_DELETE)) {
+    
+                    deletePreparedStatement.setInt(1, cat_id);
+    
+                    int row = deletePreparedStatement.executeUpdate();
+    
+                    if (row > 0) {
+                        System.out.println("Category deleted successfully!");
+                        // ดึงข้อมูลหมวดหมู่ทั้งหมด
+                        viewCategories();
+    
+                        
+                    } else {
+                        System.out.println("Failed to Delete category.");
+                    }
+                } catch (SQLException e) {
+                    System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // ปิด Connection
+                    try {
+                        if (conn != null) {
+                            conn.close();
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                System.out.println("Failed to establish connection.");
+            }
+        }
     }
 
 }
