@@ -194,6 +194,7 @@ public class CategoryController {
                                 String jsonResponse = gson.toJson(updatedCategory);
                                 System.out.println("Updated category:");
                                 System.out.println(jsonResponse);
+                                System.out.println("======================================");
                             }
                         }
                     } else {
@@ -218,5 +219,4 @@ public class CategoryController {
             }
         }
     }
-
 }
